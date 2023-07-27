@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vente de composants électroniques</title>
+  <style>
+    /* Styles CSS pour la mise en page */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+    header {
+      text-align: center;
+      padding: 20px;
+      background-color: #f0f0f0;
+    }
+    section {
+      margin: 20px 0;
+    }
+    .produit {
+      padding: 10px;
+      border: 1px solid #ccc;
+      margin-bottom: 10px;
+    }
+    .produit img {
+      max-width: 100px;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
+    .panier {
+      margin-top: 20px;
+      background-color: #f0f0f0;
+      padding: 10px;
+      border: 1px solid #ccc;
+    }
+    .panier-item {
+      display: flex;
+      justify-content: space-between;
+    }
+    .total {
+      text-align: right;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+    .recherche {
+      margin-bottom: 10px;
+    }
+    /* Styles de la section contenant les images */
+    .slideshow-container {
+      position: static;
+      width: 100%;
+      height: 200px;
+      overflow: hidden;
+    }
+
+     /* Styles des images */
+     .slideshow-container img {
+      width: 100%;
+      height: 200px;
+      object-fit: contain;
+    }
+    /* Styles réactifs pour les smartphones */
+    @media (max-width: 600px) {
+      .produit img {
+        max-width: 80px;
+      }
+    }
+    /* Styles du pied de page */
+    footer {
+      background-color: #333;
+      color: #fff;
+      padding: 10px;
+      text-align: center;
+    }
+    /* Styles des sections */
+    section {
+      padding: 40px;
+      background-color: #f9f9f9;
+      margin-bottom: 40px;
+    }
+
+    /* Styles des liens */
+    a {
+      color: #333;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <!-- Votre en-tête ici -->
+    <h1>Vente de composants électroniques chez HCBS</h1>
+  </header>
+
+  <section>
+    <!-- Votre section ici -->
+    <h2>Composant & Matérielle</h2>
+    <div class="recherche">
+      <label for="rechercheComposant">Rechercher un composant:</label>
+      <input type="text" id="rechercheComposant" oninput="filtrerComposants()">
+    </div>
+
+    <div class="produit" id="listeComposants">
+      <!-- Contenu des composants sera ajouté ici par JavaScript -->
+    </div>
+  </section>
+
+  <section class="panier">
+    <!-- Votre section panier ici -->
+    <h2>Panier</h2>
+    <div class="panier-item">
+      <span>Nom du produit</span>
+      <span>Quantité</span>
+    </div>
+    <div id="panierItems">
+      <!-- Les articles ajoutés au panier seront affichés ici par JavaScript -->
+    </div>
+    <div class="total">
+      Total: <span id="totalMontant">0 FCFA</span>
+    </div>
+    <form onsubmit="validerCommande()">
+      <label for="nom">Nom:</label>
+      <input type="text" id="nom" required>
+      <label for="prenom">Prénom:</label>
+      <input type="text" id="prenom" required>
+      <label for="telephone">Numéro WhatsApp:</label>
+      <input type="text" id="telephone" required>
+      <button type="submit">Valider la commande</button>
+    </form>
+  </section>
+
+  <script>
+    // Données de produits
+    const produits = [
+      // Ajoutez ici les données des produits en respectant le format suivant
+      { categorie: "Composant", type: "Résistance", nom: "Résistance 1K", disponibilite: true, prix: 90, image: "image/ima (69).jpg " },
+      { categorie: "Composant", type: "Résistance", nom: "Résistance 10K", disponibilite: true, prix: 90, image: "image/ima (42).jpg " },
+      { categorie: "Composant", type: "Résistance", nom: "Résistance 100K", disponibilite: true, prix: 90, image: "image/ima (41).jpg " },
+      { categorie: "Composant", type: "Résistance", nom: "Résistance 1,5K", disponibilite: true, prix: 90, image: "image/ima (45).jpg " },
+      { categorie: "Composant", type: "Résistance", nom: "Résistance 1M", disponibilite: true, prix: 90, image: "image/ima (43).jpg " },
+      { categorie: "Composant", type: "Résistance", nom: "Résistance 4,7K", disponibilite: true, prix: 90, image: "image/ima (44).jpg " },
+      { categorie: "Composant", type: "Résistance", nom: "Résistance 2,2K", disponibilite: false, prix: 90, image: "image/ima (69).jpg " },
+      { categorie: "Composant", type: "Résistance", nom: "Résistance 47K", disponibilite: false, prix: 90, image: "image/ima (69).jpg " },
+      
+      { categorie: "Composant", type: "Diode", nom: "Diode 1N4007", disponibilite: true, prix: 100, image: "image/ima (46).jpg " },
+      { categorie: "Composant", type: "Diode", nom: "Diode 1N4001", disponibilite: false, prix: 100, image: "image/ima (46).jpg " },
+      
+      { categorie: "Composant", type: "Circuit", nom: "Circuit CD4001", disponibilite: true, prix: 400, image: "image/ima (49).jpg " },
+      { categorie: "Composant", type: "Circuit", nom: "Circuit CD4011", disponibilite: true, prix: 400, image: "image/ima (1).jpg " },
+      { categorie: "Composant", type: "Circuit", nom: "Circuit CD4017", disponibilite: true, prix: 400, image: "image/ima (40).jpg " },
+      { categorie: "Composant", type: "Circuit", nom: "Circuit CD4027", disponibilite: true, prix: 400, image: "image/ima (50).jpg " },
+      { categorie: "Composant", type: "Circuit", nom: "Circuit NE555", disponibilite: true, prix: 400, image: "image/ima (25).jpg " },
+      
+
+      { categorie: "Composant", type: "LED", nom: "LED Rouge", disponibilite: true, prix: 99, image: "image/ima (56).jpg " },
+      { categorie: "Composant", type: "LED", nom: "LED Verte", disponibilite: true, prix: 99, image: "image/ima (57).jpg " },
+      { categorie: "Composant", type: "LED", nom: "LED Jaune", disponibilite: true, prix: 99, image: "image/ima (36).jpg " },
+      { categorie: "Composant", type: "LED", nom: "LED Verte tète blanc", disponibilite: true, prix: 95, image: "image/ima (34).jpg " },
+      { categorie: "Composant", type: "LED", nom: "LED Rouge tète blanc", disponibilite: true, prix: 95, image: "image/ima (34).jpg " },
+      { categorie: "Composant", type: "LED", nom: "LED Jaune tète blanc", disponibilite: true, prix: 95, image: "image/ima (34).jpg " },
+      
+      { categorie: "Composant", type: "Transistor", nom: "Transistor 2N2222", disponibilite: true, prix: 200, image: "image/ima (47).jpg " }, 
+      { categorie: "Composant", type: "Transistor", nom: "Transistor BC547", disponibilite: true, prix: 200, image: "image/ima (48).jpg " }, 
+      
+      { categorie: "Composant", type: "Régulateur", nom: "Régulateur 7809", disponibilite: true, prix: 300, image: "image/ima (52).jpg " }, 
+      { categorie: "Composant", type: "Régulateur", nom: "Régulateur 7812", disponibilite: true, prix: 300, image: "image/ima (51).jpg " }, 
+      
+      { categorie: "Composant", type: "Condensateur", nom: "Condensateur 104 (100nf)", disponibilite: true, prix: 140, image: "image/ima (53).jpg " }, 
+      { categorie: "Composant", type: "Condensateur", nom: "Condensateur 103 (10nf)", disponibilite: true, prix: 140, image: "image/ima (54).jpg " }, 
+      { categorie: "Composant", type: "Condensateur", nom: "Condensateur 10µf", disponibilite: true, prix: 140, image: "image/ima (60).jpg " }, 
+      { categorie: "Composant", type: "Condensateur", nom: "Condensateur 1µf", disponibilite: true, prix: 140, image: "image/ima (59).jpg " }, 
+
+      { categorie: "Composant", type: "Jumper ", nom: "Jumper", disponibilite: true, prix: 50, image: "image/ima (58).jpg " }, 
+
+      { categorie: "Composant", type: "Photorésistance Disponible", nom: "Photorésistance Disponible ", disponibilite: true, prix: 200, image: "image/ima (55).jpg " }, 
+
+      { categorie: "Composant", type: "Vérobord grand", nom: "Vérobord grand", disponibilite: true, prix: 750, image: "image/ima (63).jpg " }, 
+
+      { categorie: "Composant", type: "Vérobord petit", nom: "Vérobord petit", disponibilite: true, prix: 400, image: "image/ima (62).jpg " }, 
+
+      { categorie: "Composant", type: "Protobord", nom: "Protobord", disponibilite: true, prix: 1450, image: "image/ima (61).jpg " }, 
+      
+      { categorie: "Composant", type: "Kit Arduino", nom: "Kit Arduino", disponibilite: true, prix: 30000, image: "image/ima (68).jpg " }, 
+
+      { categorie: "Composant", type: "Bouton poursoi", nom: "Bouton poursoi", disponibilite: true, prix: 100, image: "image/ima (37).jpg " }, 
+
+      { categorie: "Matérielle", type: "Fer à souder", nom: "Fer à souder", disponibilite: true, prix: 4000, image: "image/ima (70).jpg " }, 
+     
+      { categorie: "Matérielle", type: "Fer à souder", nom: "Fer à souder pro", disponibilite: true, prix: 5500, image: "image/ima (67).jpg " }, 
+
+      { categorie: "Matérielle", type: "Fer à souder", nom: "kit Fer à souder", disponibilite: true, prix: 10000, image: "image/ima (1).jpeg " }, 
+
+      { categorie: "Composant", type: "Multimètre", nom: "Multimètre", disponibilite: true, prix: 5200, image: "image/ima (65).jpg " }, 
+
+      { categorie: "Matérielle", type: "Souffleur", nom: "Souffleur", disponibilite: true, prix: 10500, image: "image/ima (64).jpg " }, 
+
+      { categorie: "Matérielle", type: "Pompe à dessouder", nom: "Pompe à dessouder", disponibilite: true, prix: 1000, image: "image/ima (66).jpg " }, 
+
+      // Ajoutez le reste des produits disponibles
+
+    ];
+
+
+    // JavaScript pour gérer l'affichage des produits, l'ajout au panier et le calcul du montant total
+    let panier = {};
+
+    function afficherProduits() {
+      const listeComposants = document.getElementById('listeComposants');
+      listeComposants.innerHTML = '';
+      produits.forEach(produit => {
+        const produitDiv = document.createElement('div');
+        produitDiv.classList.add('produit');
+        if (produit.disponibilite) {
+          produitDiv.innerHTML = `
+            <img src="${produit.image}" alt="${produit.nom}">
+            ${produit.nom} - Disponible à ${produit.prix} FCFA
+            <button onclick="ajouterAuPanier('${produit.nom}', ${produit.prix})">Ajouter au panier</button>
+          `;
+        } else {
+          produitDiv.innerHTML = `
+            <img src="${produit.image}" alt="${produit.nom}">
+            ${produit.nom} - En rupture de stock à ${produit.prix} FCFA
+          `;
+        }
+        listeComposants.appendChild(produitDiv);
+      });
+    }
+
+    function filtrerComposants() {
+      const recherche = document.getElementById('rechercheComposant').value.trim().toLowerCase();
+      const filtresProduits = produits.filter(produit => produit.nom.toLowerCase().includes(recherche));
+      afficherProduits(filtresProduits);
+    }
+
+    function ajouterAuPanier(nomProduit, prix) {
+      const quantite = parseInt(prompt(`Combien de ${nomProduit} voulez-vous ajouter au panier?`));
+      if (quantite) {
+        if (panier[nomProduit]) {
+          panier[nomProduit] += quantite;
+        } else {
+          panier[nomProduit] = quantite;
+        }
+        afficherPanier();
+      }
+    }
+
+    function afficherPanier() {
+      const panierItems = document.getElementById('panierItems');
+      panierItems.innerHTML = '';
+      let totalMontant = 0;
+      for (const produit in panier) {
+        const prixUnitaire = getPrixUnitaire(produit);
+        const montant = panier[produit] * prixUnitaire;
+        totalMontant += montant;
+        const panierItem = document.createElement('div');
+        panierItem.classList.add('panier-item');
+        panierItem.innerHTML = `
+          <span>${produit}</span>
+          <span>${panier[produit]}</span>
+        `;
+        panierItems.appendChild(panierItem);
+      }
+      document.getElementById('totalMontant').textContent = `${totalMontant} FCFA`;
+    }
+
+    function getPrixUnitaire(nomProduit) {
+      // Ici, vous pouvez définir les prix unitaires en fonction des noms de produits
+      // Assurez-vous que les noms de produits correspondent exactement aux clés utilisées dans cet objet
+      const prixUnitaires = {
+        'Résistance 1K': 90,
+        'Résistance 10K': 90,
+        'Résistance 100K':  90,
+        'Résistance 1,5K' : 90 ,
+        'Résistance 4,7K' : 90 ,
+        'Résistance 1M' :90 ,
+        'Résistance 2,2K':90 ,
+        'Résistance 47K':90 ,
+        
+        'Diode 1N4007': 100, 
+        'Diode 1N4001' :100 ,
+ 
+        'Circuits CD4001': 400, 
+        'Circuits CD4011'  : 400 ,
+        'Circuits CD4017' : 400 ,
+        'Circuits CD4027' : 400 ,
+        'Circuits NE555'  :400 ,
+
+        'Régulateur 7809'  :300, 
+        'Régulateur 7812'   :300 ,
+
+        'Transistor 2N2222' : 200, 
+        'Transistor BC547'  :200 ,
+
+        'LED Rouge'  :99 ,
+        'LED Verte'  :99 ,
+        'LED Jaune'  :99 ,
+        'LED Rouge tète blanc'  :95, 
+        'LED Jaune tète blanc'  :  95, 
+        'LED Verte tète blanc'  :  95,
+
+        'Condensateur 104 (100nf)':  140, 
+        'Condensateur 103 (10nf)':  140 ,
+        'Condensateur 10µf': 140 ,
+        'Condensateur 1µf' : 140 ,
+
+        'Jumper' :50, 
+        'Photorésistance' : 200 ,
+        'Vérobord grand' :  750 ,
+        'Vérobord petit' : 400 ,
+        'Protobord'   :1450 ,
+        'Kit Arduino':30000, 
+
+        'Bouton poursoi' : 100 ,
+
+        'Fer à souder' : 4000 ,
+        'Fer à souder pro' : 4000 ,
+        'Kit fer  souder': 10000,
+        'Multimètre':5400,
+        'Souffleur' :10500,
+        'Pompe à dessouder' : 4000, 
+
+        // Ajoutez le reste des prix unitaires ici
+      };
+      return prixUnitaires[nomProduit];
+    }
+
+    function creerMailTo(nom, prenom, telephone, panier, totalMontant) {
+      const subject = encodeURIComponent('Commande de composants électroniques');
+      const body = encodeURIComponent(`
+        Nom: ${nom}
+        Prénom: ${prenom}
+        Numéro WhatsApp: ${telephone}
+
+        Produits commandés:
+        ${Object.entries(panier).map(([produit, quantite]) => `- ${produit}: ${quantite}`).join('\n')}
+
+        Total: ${totalMontant} FCFA
+      `);
+      return `mailto:hounkpessodes@gmail.com?subject=${subject}&body=${body}`;
+    }
+
+    function validerCommande() {
+      // Récupérer les informations du client
+      const nom = document.getElementById('nom').value;
+      const prenom = document.getElementById('prenom').value;
+      const telephone = document.getElementById('telephone').value;
+
+      // Créer le lien "mailto" avec les détails de la commande
+      const mailToLink = creerMailTo(nom, prenom, telephone, panier, document.getElementById('totalMontant').textContent);
+
+      // Ouvrir le lien de messagerie par défaut pour envoyer la commande
+      window.location.href = mailToLink;
+
+      // Réinitialiser le panier
+      panier = {};
+      afficherPanier();
+
+      // Empêcher le formulaire de soumettre la page
+      return false;
+    }
+
+    // Initialisation
+    afficherProduits();
+    // Défilement automatique des images
+    document.addEventListener('DOMContentLoaded', function() {
+      const slideshowContainer = document.querySelector('.slideshow-container');
+      const images = slideshowContainer.getElementsByTagName('img');
+      let index = 0;
+
+      function changeImage() {
+        for (let i = 0; i < images.length; i++) {
+          images[i].style.display = 'none';
+        }
+        index = (index + 1) % images.length;
+        images[index].style.display = 'block';
+      }
+
+      setInterval(changeImage, 3000); // Changement d'image toutes les 3 secondes
+    });
+    
+  </script>
+  <p> D’autre article disponible chez nous </p>
+  <p>N'hésitez pas à nous contacter si vous avez besoins plus de renseignement ou d'aide sur un projet </p>
+  <div class="slideshow-container">
+    <img src="image/ima (69).jpg" alt="Image 1">
+    <img src="image/ima (48).jpg" alt="Image 2">
+    <img src="image/ima (36).jpg" alt="Image 3">
+    <img src="image/ima (47).jpg" alt="Image 4">
+  </div>
+<section id="contact">
+  <h2>Contact</h2>
+  <ul>
+    <li>Email : <a href="mailto:hounkpessodes@gmail.com">hounkpessodes@gmail.com</a></li>
+    <li>Téléphone :(+229) 69 64 02 54 / 60286592
+</li>
+    <li>Facebook : <a href="https://www.facebook.com/sergio.hounkpessode.31">Profil Facebook</a></li>
+    <li>Gmail : <a href="mailto:hounkpessodes@gmail.com">Envoyer un email</a></li>
+    <li>WhatsApp : <a href="https://wa.me/qr/LQJTP6BBMFWYN1">Chat sur WhatsApp</a></li>
+    <li>LinkedIn : <a href="https://www.linkedin.com/in/bienvenue-hounkpessode-a8a14a1b7">Profil LinkedIn</a></li>
+  </ul>
+  <p>Adresse : Bohicon, Vont de la nouvelle agence de MTN, derrière le LYTEB</p>
+</section>
+
+  <footer>
+    <p>© 2023 Mon Site Personnel. Tous droits réservés.</p>
+  </footer>
+</body>
+</html>
