@@ -7,21 +7,21 @@
   <style>
     /* Styles CSS pour la mise en page */
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Times New Roman', Times, serif, Helvetica, sans-serif, sans-serif;
       margin: 0;
       padding: 20px;
     }
     header {
       text-align: center;
       padding: 20px;
-      background-color: #f0f0f0;
+      background-color: #ebdada;
     }
     section {
       margin: 20px 0;
     }
     .produit {
       padding: 10px;
-      border: 1px solid #ccc;
+      border: 1px solid #e477db;
       margin-bottom: 10px;
     }
     .produit img {
@@ -142,18 +142,24 @@
       { categorie: "Composant", type: "Résistance", nom: "Résistance 1,5K", disponibilite: true, prix: 90, image: "image/ima (45).jpg " },
       { categorie: "Composant", type: "Résistance", nom: "Résistance 1M", disponibilite: true, prix: 90, image: "image/ima (43).jpg " },
       { categorie: "Composant", type: "Résistance", nom: "Résistance 4,7K", disponibilite: true, prix: 90, image: "image/ima (44).jpg " },
-      { categorie: "Composant", type: "Résistance", nom: "Résistance 2,2K", disponibilite: false, prix: 90, image: "image/ima (69).jpg " },
-      { categorie: "Composant", type: "Résistance", nom: "Résistance 47K", disponibilite: false, prix: 90, image: "image/ima (69).jpg " },
+      { categorie: "Composant", type: "Résistance", nom: "Résistance 2,2K", disponibilite: true, prix: 90, image: "image/ima (69).jpg " },
+      { categorie: "Composant", type: "Résistance", nom: "Résistance 47K", disponibilite: true, prix: 90, image: "image/ima (69).jpg " },
       
       { categorie: "Composant", type: "Diode", nom: "Diode 1N4007", disponibilite: true, prix: 100, image: "image/ima (46).jpg " },
-      { categorie: "Composant", type: "Diode", nom: "Diode 1N4001", disponibilite: false, prix: 100, image: "image/ima (46).jpg " },
+      { categorie: "Composant", type: "Diode", nom: "Diode 1N4001", disponibilite: true, prix: 100, image: "image/ima (46).jpg " },
+
+      { categorie: "Composant", type: "Buzzer", nom: "Buzzer 12V", disponibilite: true, prix: 350, image: "image/ima (7).jpeg " },
       
       { categorie: "Composant", type: "Circuit", nom: "Circuit CD4001", disponibilite: true, prix: 400, image: "image/ima (49).jpg " },
       { categorie: "Composant", type: "Circuit", nom: "Circuit CD4011", disponibilite: true, prix: 400, image: "image/ima (1).jpg " },
       { categorie: "Composant", type: "Circuit", nom: "Circuit CD4017", disponibilite: true, prix: 400, image: "image/ima (40).jpg " },
       { categorie: "Composant", type: "Circuit", nom: "Circuit CD4027", disponibilite: true, prix: 400, image: "image/ima (50).jpg " },
-      { categorie: "Composant", type: "Circuit", nom: "Circuit NE555", disponibilite: true, prix: 400, image: "image/ima (25).jpg " },
+      { categorie: "Composant", type: "Circuit", nom: "Circuit NE555", disponibilite: true, prix: 350, image: "image/ima (50).jpg " },
       
+      { categorie: "Composant", type: "Transformateur", nom: "Transformateur 12V", disponibilite: true, prix: 1500, image: "image/ima (3).jpg " },
+      { categorie: "Composant", type: "Transformateur", nom: "Transformateur (12V-12V) 24V", disponibilite: true, prix: 2500, image: "image/ima (4).jpg " },
+
+      { categorie: "Composant", type: "Relais", nom: "Relais 12V", disponibilite: true, prix: 400, image: "image/ima (5).jpg " },
 
       { categorie: "Composant", type: "LED", nom: "LED Rouge", disponibilite: true, prix: 99, image: "image/ima (56).jpg " },
       { categorie: "Composant", type: "LED", nom: "LED Verte", disponibilite: true, prix: 99, image: "image/ima (57).jpg " },
@@ -174,6 +180,7 @@
       { categorie: "Composant", type: "Condensateur", nom: "Condensateur 1µf", disponibilite: true, prix: 140, image: "image/ima (59).jpg " }, 
 
       { categorie: "Composant", type: "Jumper ", nom: "Jumper", disponibilite: true, prix: 50, image: "image/ima (58).jpg " }, 
+      { categorie: "Composant", type: "Jumper ", nom: "Connecteur Aligator", disponibilite: true, prix: 150, image: "image/ima (6).jpg " }, 
 
       { categorie: "Composant", type: "Photorésistance Disponible", nom: "Photorésistance Disponible ", disponibilite: true, prix: 200, image: "image/ima (55).jpg " }, 
 
@@ -189,9 +196,9 @@
 
       { categorie: "Matérielle", type: "Fer à souder", nom: "Fer à souder", disponibilite: true, prix: 4000, image: "image/ima (70).jpg " }, 
      
-      { categorie: "Matérielle", type: "Fer à souder", nom: "Fer à souder pro", disponibilite: true, prix: 5500, image: "image/ima (67).jpg " }, 
+      { categorie: "Matérielle", type: "Fer à souder", nom: "Fer à souder pro", disponibilite: true, prix: 6000, image: "image/ima (67).jpg " }, 
 
-      { categorie: "Matérielle", type: "Fer à souder", nom: "kit Fer à souder", disponibilite: true, prix: 10000, image: "image/ima (1).jpeg " }, 
+    
 
       { categorie: "Composant", type: "Multimètre", nom: "Multimètre", disponibilite: true, prix: 5200, image: "image/ima (65).jpg " }, 
 
@@ -278,15 +285,20 @@
         'Résistance 1M' :90 ,
         'Résistance 2,2K':90 ,
         'Résistance 47K':90 ,
+
+        'Transformateur (12V-12V) 24V' :2500,
+        'Transformateur 12V' :1500,
         
         'Diode 1N4007': 100, 
         'Diode 1N4001' :100 ,
+
+        'Relais 12V':400, 
  
         'Circuit CD4001': 400, 
         'Circuit CD4011'  : 400 ,
         'Circuit CD4017' : 400 ,
         'Circuit CD4027' : 400 ,
-        'Circuit NE555'  :400 ,
+        'Circuit NE555'  :350 ,
 
         'Régulateur 7809'  :300, 
         'Régulateur 7812'   :300 ,
@@ -306,7 +318,10 @@
         'Condensateur 10µf': 140 ,
         'Condensateur 1µf' : 140 ,
 
+        'Buzzer 12V': 350,
+
         'Jumper' :50, 
+        'Connecteur Aligator':150, 
         'Photorésistance' : 200 ,
         'Vérobord grand' :  750 ,
         'Vérobord petit' : 400 ,
@@ -316,9 +331,8 @@
         'Bouton poursoi' : 100 ,
 
         'Fer à souder' : 4000 ,
-        'Fer à souder pro' : 4000 ,
-        'Kit fer  souder': 10000,
-        'Multimètre':5400,
+        'Fer à souder pro' : 6000 ,
+        'Multimètre':5200,
         'Souffleur' :10500,
         'Pompe à dessouder' : 4000, 
 
@@ -389,6 +403,7 @@
     <img src="image/ima (48).jpg" alt="Image 2">
     <img src="image/ima (36).jpg" alt="Image 3">
     <img src="image/ima (47).jpg" alt="Image 4">
+    <img src="image/ima (8).jpg" alt="Image 5">
   </div>
 <section id="contact">
   <h2>Contact</h2>
